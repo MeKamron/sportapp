@@ -1,0 +1,26 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+
+{% block content %}
+
+<div class="authentication-theme auth-style_1">
+    <div class="row">
+      <div class="col-12 logo-section" style="margin-bottom: 50px;">
+        <a href="#" class="logo">
+          <img src="{% static 'assets/images/sportApp.png' %}" alt="logo" />
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-5 col-md-7 col-sm-9 col-11 mx-auto">
+        
+            <h2 class="mb-3">Tizimdan muvaffaqqiyatli chiqdingiz!</h2>
+            <p>Qayta kirish uchun quyidagi linkdan foydalaning. <a href="{% url 'main:login' %}">Kirish.</a></p>
+         
+      </div>
+    </div>
+  </div>
+{% endblock %}

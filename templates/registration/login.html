@@ -1,0 +1,38 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+
+{% block content %}
+
+<div class="authentication-theme auth-style_1">
+    <div class="row">
+      <div class="col-12 logo-section">
+        <a href="#" class="logo">
+          <img src="{% static 'assets/images/sportApp.png' %}" alt="logo" />
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-5 col-md-7 col-sm-9 col-11 mx-auto">
+        <div class="grid">
+          <div class="grid-body">
+            <div class="row">
+              <div class="col-lg-7 col-md-8 col-sm-9 col-12 mx-auto form-wrapper">
+                <form action="{% url 'main:login' %}" method="post">
+                  <div class="form-group input-rounded">
+                      {{ form.as_p }}
+                      {% csrf_token %}
+                  </div>
+                  <input type="hidden" name="next" value="{{ next }}" />
+                  <input type="submit" class="btn btn-primary btn-block" value="Login" />
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,206 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Asosiy sahifa{% endblock %}
+
+{% block content %}
+<style>
+    .page-link {
+        padding: 0.20rem 0.9rem !important;
+    }
+    .page-link:hover {
+        background-color: #9d9da7;
+        border-color: #9d9da7;
+    }
+</style>
+<nav class="t-header">
+    <div class="t-header-brand-wrapper">
+        <a href="#">
+            <img class="logo" src="{% static 'assets/images/sportApp.png' %}" alt="">
+            <img class="logo-mini" src="{% static 'assets/images/sportApp.png' %}" alt="">
+        </a>
+    </div>
+    <div class="t-header-content-wrapper pr-5">
+        <div class="t-header-content">
+            <button class="t-header-toggler t-header-mobile-toggler d-block d-lg-none">
+                <i class="mdi mdi-menu"></i>
+            </button>
+            <form action="{% url 'main:home' %}" method="post" class="t-header-search-box">
+                <div class="input-group">
+                    {{ search_form }}
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit"><i class="mdi mdi-arrow-right-thick"></i></button>
+                </div>
+            </form>
+        </div>
+        <div>
+            <a href="{% url 'main:logout' %}">Chiqish</a>
+        </div>
+    </div>
+</nav>
+<div class="page-body">
+    <!-- partial:partials/_sidebar.html -->
+    <div class="sidebar">
+        <ul class="navigation-menu">
+            <li {% if not sport_turi %}class="active" {% endif %}>
+                <a href="{% url 'main:home' %}" class="d-inline">
+                    <span class="link-title">Barchasi</span>
+                </a>
+                <button class="d-inline btn btn-success btn-rounded has-icon pl-4 pr-3" data-toggle="modal"
+                    data-target="#exampleModal">
+                    <i class="mdi mdi-eyedropper" style="font-size: 10px;"></i>
+                </button>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Yangi sport turi</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{% url 'main:sport_turi_create' %}" method="post"
+                                    enctype="multipart/form-data">
+                                    {{ sport_turi_create_form.as_p }}
+                                    {% csrf_token %}
+                                    <input type="submit" class="btn btn-primary mt-3" value="Saqlash"></input>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            {% for tur in turlar %}
+            <li {% if sport_turi == tur %}class="active" {% endif %}>
+                <a href="{% url 'main:centers_by_category' tur.id %}">
+                    <span class="link-title">{{ tur.nomi }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <!-- partial -->
+    <div class="page-content-wrapper">
+        <div class="page-content-wrapper-inner">
+            <div class="content-viewport">
+                <div class="row">
+                    <div class="col-10 py-5">
+                        <h4>Sport markazlar</h4>
+                    </div>
+                    <div class="col-2 py-5">
+                        <button class="d-inline btn btn-success btn-rounded float-right" data-toggle="modal" data-target="#sport-center-create">
+                            Yangi markaz
+                        </button>
+                        <div class="modal fade" id="sport-center-create" tabindex="-1"
+                            aria-labelledby="sport-center-create-label" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="sport-center-create-label">Yangi sport turi</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{% url 'main:sport_center_create' %}" method="post"
+                                            enctype="multipart/form-data">
+                                            {{ sport_center_create_form.as_p }}
+                                            {% csrf_token %}
+                                            <input type="submit" class="btn btn-primary mt-3" value="Saqlash"></input>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 equel-grid">
+                        <div class="grid">
+                            <div class="grid-body py-3">
+                                <p class="card-title ml-n1">Barcha sport markazlari</p>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-sm">
+                                    <thead>
+                                        <tr class="solid-header">
+                                            <th class="pl-4">Nomi</th>
+                                            <th>Sport turi</th>
+                                            <th>Manzil</th>
+                                            <th>Telfon</th>
+                                            <th>Ochiladi</th>
+                                            <th>Yopiladi</th>
+                                            <th>Xolati</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for center in centers %}
+                                        <tr>
+                                            <td class="pl-4">{{ center.nomi }}</td>
+                                            <td>{{ center.sport_turi }}</td>
+                                            <td>{{ center.manzil }}</td>
+                                            <td>{{ center.telfon }}</td>
+                                            <td>{{ center.opens|date:"G:i" }}</td>
+                                            <td>{{ center.closes|date:"G:i" }}</td>
+                                            {% if center.is_active %}
+                                                <td style="color: green; font-weight: 700;">Active</td>
+                                            {% else %}
+                                                <td style="color:red; font-weight: 700;">Yopilgan</td>
+                                            {% endif %}
+                                            <td><a href="{% url 'main:sport_center_update' center.id %}">Taxrirlash</a></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <div class="row pt-3 pl-3 float-right">
+                                    {% if centers.paginator.num_pages > 1 %}
+                                    <nav aria-label="...">
+                                        <ul class="pagination pagination-lg mr-20">
+                                            {% if centers.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ centers.previous_page_number }}"
+                                                    aria-label="Previous">
+                                                    <span aria-hidden="true">«</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                            </li>
+                                            {% endif %}
+                                            {% for num in centers.paginator.page_range %}
+                                            {% if num == centers.number %}
+                                            <li class="page-item">
+                                                <a class="page-link" style="background-color: rgb(81, 81, 224); color: white;"
+                                                    href="#" tabindex="-1">{{ num }}</a>
+                                            </li>
+                                            {% elif num > centers.number|add:'-3' and num < centers.number|add:'3' %}
+                                                <li class="page-item"><a class="page-link" href="?page={{ num }}"
+                                                    style="background-color: #9d9da7; color: white;">{{ num }}</a></li>
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% if centers.has_next %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ centers.next_page_number }}"
+                                                        aria-label="Next">
+                                                        <span aria-hidden="true">»</span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </li>
+                                                {% endif %}
+                                        </ul>
+                                    </nav>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content viewport ends -->
+        <!-- partial:partials/_footer.html -->
+        <!-- partial -->
+    </div>
+    <!-- page content ends -->
+</div>
+{% endblock %}

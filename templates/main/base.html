@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'assets/vendors/iconfonts/mdi/css/materialdesignicons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/shared/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/demo_1/style.css' %}">
+  </head>
+  <body class="header-fixed">
+    {% block content %}
+    {% endblock %}
+    <div style="margin-top: 20px;">
+      <footer class="footer">
+        <div class="row">
+          <div class="col-12 text-center text-sm-center mt-3">
+            <small class="text-muted d-block">Copyright © 2021 <a href="http://www.digitalpark.uz"
+              target="_blank">Digital City Andijan</a>. All rights reserved</small>
+            </div>
+          </div>
+        </footer>
+    </div>
+  <script src="{% static 'assets/vendors/js/core.js' %}"></script>
+  <script src="{% static 'assets/vendors/apexcharts/apexcharts.min.js' %}"></script>
+  <script src="{% static 'assets/vendors/chartjs/Chart.min.js' %}"></script>
+  <script src="{% static 'assets/js/charts/chartjs.addon.js' %}"></script>
+  <script src="{% static 'assets/js/template.js' %}"></script>
+  <script src="{% static 'assets/js/dashboard.js' %}"></script>
+  </body>
+</html>
