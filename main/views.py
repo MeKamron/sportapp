@@ -96,7 +96,3 @@ def sport_center_create(request):
 def user_logout(request):
     logout(request)
     return render(request, "registration/logout.html")
-
-
-def error_404(request, exception):
-    return render(request,'404.html', status = 404)
