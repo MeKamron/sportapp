@@ -19,7 +19,8 @@ class SportTuriCreateForm(forms.ModelForm):
         }
 
         labels = {
-            "photo": "Rasm"
+            "photo": "Rasm",
+            "nomi": "Nomi"
         }
         
 
